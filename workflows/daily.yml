@@ -1,0 +1,32 @@
+
+name: Daily HR Prediction
+
+on:
+  schedule:
+    - cron: '0 14 * * *'  # 10AM ET daily
+  workflow_dispatch:
+
+jobs:
+  predict:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install pybaseball mlbstatsapi
+      - name: Run Prediction
+        run: |
+          python scripts/update_daily.py
+      - name: Commit results
+        run: |
+          git config --global user.name "Keem Bot"
+          git config --global user.email "keembot@example.com"
+          git add daily_hr_report_*.csv
+          git commit -m "📈 Daily HR Prediction Report"
+          git push
