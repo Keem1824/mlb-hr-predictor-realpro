@@ -5,5 +5,5 @@ xgboost==1.7.6
 streamlit
 python-dotenv
 pybaseball
-mlbstatsapi
 joblib
+git+https://github.com/toddrob99/MLB-StatsAPI.git
